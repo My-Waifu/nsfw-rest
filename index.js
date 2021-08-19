@@ -12,6 +12,7 @@ application.listen(port, () => {
     let args = process.argv.slice(2);
     if (args.includes("debug=true")) debugMode = true;
     console.log(`Listening at https://localhost:${port}`)
+    console.log(`Debug is Enabled : ${debugMode}`)
 })
 
 application.use(httpContext.middleware);
@@ -26,6 +27,8 @@ application.get('/api/', async function (request, response) {
     const category = request.query.category;
     const tag = request.query.tags;
     const nsfw = request.query.nsfw;
+    const base64 = request.query.base64;
+
     const ip = request.headers['x-forwarded-for'] || request.socket.remoteAddress
 
     if (debugMode) debug("Client -> Server : A request was received. [INFO]", ip);
@@ -52,10 +55,11 @@ application.get('/api/', async function (request, response) {
             }) && console.log(error);
         }
 
-        if(debugMode) debug("Client <- Server : The response to the request has been sent! [INFO] ", ip);
+        if (debugMode) debug("Client <- Server : The response to the request has been sent! [INFO] ", ip);
+        if (!isUndefined(base64)) return response.send(Buffer.from(rows[0].bytes).toString('base64'));
         return response.json({fileType: fileType, category: category, tag: tag, nsfw: nsfw, image: rows[0].bytes})
     });
-});
+})
 
 
 function debug(message, ip) {
