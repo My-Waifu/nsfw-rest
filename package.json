@@ -10,7 +10,9 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "mysql2": "^2.3.0"
+    "express-http-context": "^1.2.4",
+    "mysql2": "^2.3.0",
+    "node-uuid": "^1.4.8"
   },
   "dependencies": {
     "express": "^4.17.1"
