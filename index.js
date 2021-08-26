@@ -52,7 +52,7 @@ application.get('/api/', async function (request, response) {
             return response.json({
                 error: "Oh... It seems we couldn't find a result to your request! :c",
                 errorCode: 404
-            }) && console.log(error);
+            });
         }
 
         if (debugMode) debug("Client <- Server : The response to the request has been sent! [INFO] ", ip);
